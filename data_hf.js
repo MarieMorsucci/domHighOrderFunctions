@@ -1953,42 +1953,52 @@ console.log(array2)
 /* 4. Generar una función que reciba como parámetro un array de cervezas y devuelva un nuevo array con las 10 cervezas con mayor alcohol.
  */
 
-/* let arrayOrder= beers.sort((beer, beer2) => beer2.abv- beer.abv) //b-a para orden decreciente
+/* let arrayOrder= beers => beers.sort((beer, beer2) => beer2.abv- beer.abv) //b-a para orden decreciente
 let mostAbv= []
 
 for (let i = 0; i < 10; i++) {
-    mostAbv.push(arrayOrder[i])
-      
+    mostAbv.push(arrayOrder[i]) 
 }
 
 console.log('Las cervezas con mayor graduacion alcoholica son:')
-console.log(mostAbv)
- */
+console.log(mostAbv) */
+
+
+//FORMA 2 CON UN MAP
+
+/* let arrayOrder= beers => beers.sort((beer, beer2) => beer2.abv- beer.abv).splice(0,10)
+
+console.log('Las cervezas con mayor graduacion alcoholica son:')
+console.log(arrayOrder(beers)) */
+
 
 
 /* 5. Generar una función que reciba como parámetro un array de cervezas y devuelva un nuevo array 
 con las 10 cervezas menos amargas.
  */
 
-/* let arrayOrder = beers.sort((beer1 , beer2 )=> beer1.ibu - beer2.ibu).splice(0,10) // o. creciente a-b
-let lessIbu =[]
+//toSort no modifica el array
+
+/* let lessIbu = array => array.toSorted((beer1,beer2) => beer1.ibu - beer2.ibu).splice(0,10) // o. creciente a-b
 
 console.log('Las cervezas con menor amargor son:')
-console.log(lessIbu) */
+console.log(lessIbu(beers)) */
 
 /* 6. Generar una función que reciba como parámetros un array de cervezas y un nombre de 
 cerveza. La función debe devolver el objeto completo que coincida con el nombre ingresado. */
 
 
-/* let nombre = prompt('Ingrese nombre de cerveza a buscar').toLowerCase()
-console.log(nombre)
+/* let preg = prompt('Ingrese nombre de cerveza a buscar').toLowerCase()
 
-let target = (beers.find(beer => beer.name.toLowerCase() == nombre) )
-console.log(target)
 
-if(target != undefined){
+let target = (array, nombre) => (array.find(beer => beer.name.toLowerCase() == nombre) )
+
+
+let rdo=target(beers,preg)
+
+if(rdo != undefined){
     console.log('Los datos de la cerveza buscada son: ')
-    console.log(target)
+    console.log(rdo)
 }else(console.log('La cerveza que pediste no esta en la lista')) */
 
 
@@ -1999,15 +2009,16 @@ cerveza con ese ibu que muestre un mensaje en la consola que dice "No hay cervez
 
 /* let value = parseInt(prompt('Ingrese valor de IBU'))
 
-let target = beers.find(beer => beer.ibu == value)
-console.log(target)
+let target = (array,valor) => array.find(beer => beer.ibu == valor)
+let rdo =target(beers,value)
 
-if(target != undefined){
+if(rdo != undefined){
     console.log('Los datos de la cerveza con ese IBU es: ')
-    console.log(target)
-}else(console.log('No hay cerveza con un ibu de ese valor ingresado'))
- */
+    console.log(rdo)
 
+}else(console.log('No hay cerveza con un ibu de ese valor ingresado'))
+
+ */
 
 /* 8. Generar una función que reciba como parámetro el nombre de una cerveza y devuelva la 
 posición en el array de esa cerveza. Si no se encuentra la cerveza, se debe imprimir 
@@ -2015,15 +2026,15 @@ un mensaje a través de la consola que diga “(Nombre de la cerveza ingresada) 
  */
 
 /* let nombre = prompt('Ingrese nombre de cerveza a buscar').toLowerCase()
-console.log(nombre)
 
-let target = (beers.findIndex(beer => beer.name.toLowerCase() == nombre) )
-//console.log(target)
+let target = (array, valor) => array.findIndex(beer => beer.name.toLowerCase() == valor) 
+ 
+let rdo= target(beers,nombre)
 
-if(target != -1){
-    console.log('El index de la cerveza buscada es: ')
+if (rdo !== -1 ) {
+    console.log(`El index de la cerveza buscada es: ${rdo}`)
    
-}else(console.log('La cerveza que pediste no esta en la lista')) */
+} else {console.log(`La cerveza que pediste no esta en la lista`)} */
 
 
 /* 9. Generar una función que reciba como parámetro el array de cervezas y un valor de alcohol.
@@ -2041,7 +2052,7 @@ let map = arrayAbv(beers,limitValue).map(beer => {
   beer = {
     nombre: beer.name,
     alcohol : beer.abv,
-    amargura : beer.ibu
+    amargor : beer.ibu
   } 
   mapProp.push(beer)
 }
@@ -2060,13 +2071,14 @@ let arrayAbv = (array, valorLim) => array.filter(obj =>obj.abv<= valorLim).map(b
   beer = {
     nombre: beer.name,
     alcohol : beer.abv,
-    amargura : beer.ibu
+    amargor : beer.ibu
   }
  mapProp.push(beer)
 }
 )
 
 let map = arrayAbv(beers,limitValue)
+
 console.log('---------ARREGLO CON PROPIEDADES SELLECIONADAS--------')
 console.log(mapProp) */
 
@@ -2077,9 +2089,6 @@ propiedad y un valor booleano. Debería devolver una nueva matriz con 10 cerveza
 por la propiedad ingresada como segundo argumento, ascendente si el tercero es verdadero o 
 descendente si es falso */
 
-
-
-
 /* 
 // Es tostada? EBC entre 12 y 47
 let isToast= obj =>{
@@ -2088,17 +2097,16 @@ let isToast= obj =>{
   }else(isToast=false)
 } */
 
-let valLim= 15
-let isToast = true;
+/* let prop= 'ibu'
+let isToast = false;
 let aux;
 
-let arrayBeer = (array, lim, boolean) => array.filter(obj => obj.abv <= lim).splice(0,10).sort((obj, obj2) =>
+let arrayBeer = (array, prop, boolean) => array.filter(obj => obj[prop]).splice(0,10).sort((obj, obj2) =>
 {if(boolean){
-   return obj.abv - obj2.abv
-  }else return obj2.abv - obj.abv
+   return obj[prop] - obj2[prop]
+  } return obj2[prop] - obj[prop]
 })
-
-console.log(arrayBeer(beers,valLim,isToast))
+console.log(arrayBeer(beers,prop,isToast)) */
 
 
 /* 11. Generar una función que reciba como parámetro un array de cervezas y un id de un 
@@ -2107,7 +2115,7 @@ elemento HTML donde se imprimirá la tabla. La función debe renderizar (renderi
     "ABV", "IBU" y una fila por cada elemento del array. Cada fila debe tener los datos 
     solicitados para cada una de las cervezas. */
 
-let template = document.createElement('template')
+/* let template = document.createElement('template')
 let contenedorData =document.getElementById('data')
 
 
@@ -2122,9 +2130,12 @@ let renderTable= (array, contenedor) => contenedor.innerHTML=array.map(createRow
 
 console.log(renderTable(beers,template))
 
-contenedorData.innerHTML= renderTable(beers,template)
+contenedorData.innerHTML= renderTable(beers,template) */ 
 
+/*podria hacerse con un for each
 
+let renderTable = (array, contenedor) => forEach(iterator of array){
+contenedor.innerHTML=createRow(iterator)
+}
 
-
-
+*/
